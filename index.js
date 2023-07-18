@@ -12,7 +12,7 @@ async function waitForCommitStatusSuccess(owner, repo, commitSha, statusContext,
 
 
     while (true) {
-        const { data: statuses } = await client.repos.listCommitStatusesForRef({
+        const { data: statuses } = await client.rest.repos.listCommitStatusesForRef({
             owner, repo, ref: commitSha,
         });
 
