@@ -61,7 +61,7 @@ try {
     owner = repository.split("/")[0]
     repo = repository.split("/")[1]
 
-    waitForCommitStatusSuccess(owner, repo, ref, status, lookup, options)
+    await waitForCommitStatusSuccess(owner, repo, ref, status, lookup, options)
         .then((result) => {
             console.log("Done waiting.");
             if (result) {
