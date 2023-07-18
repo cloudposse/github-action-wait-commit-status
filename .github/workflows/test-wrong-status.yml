@@ -1,10 +1,10 @@
-name: Test Positive
+name: Test wrong status
 on:
   #  # Uncomment when test added first time to register workflow and comment it back after workflow would be registered
   #  #
   #  # Added pull_request to register workflow from the PR.
   #  # Read more https://stackoverflow.com/questions/63362126/github-actions-how-to-run-a-workflow-created-on-a-non-master-branch-from-the-wo
-  #  pull_request: {}
+  pull_request: {}
   workflow_dispatch: {}
 
 jobs:
@@ -40,7 +40,7 @@ jobs:
           repo: ${{ github.repository }}
           sha: ${{ github.sha }}
           token: ${{ secrets.PUBLIC_REPO_ACCESS_TOKEN }}
-          status: success
+          status: pending
           context: continuous-delivery/${{ needs.setup.outputs.environment }}.test-app
 
   test:
@@ -69,7 +69,7 @@ jobs:
     steps:
       - uses: nick-fields/assert-action@v1
         with:
-          expected: "success"
+          expected: "failure"
           actual: "${{ needs.test.outputs.status }}"
 
   teardown:
