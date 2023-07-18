@@ -53,11 +53,17 @@ const start = async function() {
         const check_retry_count = core.getInput('check-retry-count');
         const check_retry_interval = core.getInput('check-retry-interval');
 
+        console.log(check_timeout)
+        console.log(check_retry_count)
+        console.log(check_retry_interval)
+
         const options = {
             timeout: 1000 * check_timeout, // Convert from seconds to milliseconds
             retryCount: check_retry_count, // Retry 5 times before giving up
             retryInterval: 1000 * check_retry_interval // Convert from seconds to milliseconds
         };
+
+        console.log(options)
 
         owner = repository.split("/")[0]
         repo = repository.split("/")[1]
