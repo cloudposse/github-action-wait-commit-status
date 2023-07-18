@@ -5,19 +5,35 @@ branding:
   icon: 'file'
   color: 'white'
 inputs:
-  param1:
+  check-timeout:
     required: true
     description: "Input parameter placeholder"
     default: "true"
-outputs:
-  result1:
-    description: "Output result placeholder"
-    value: "${{ steps.context.outputs.action-result }}"
+  check-retry-count:
+    required: true
+    description: "Input parameter placeholder"
+    default: "true"
+  check-retry-interval:
+    required: true
+    description: "Input parameter placeholder"
+    default: "true"
+  repository:
+    required: true
+    description: "Input parameter placeholder"
+    default: "true"
+  ref:
+    required: true
+    description: "Input parameter placeholder"
+    default: "true"
+  status:
+    required: true
+    description: "Input parameter placeholder"
+    default: "true"
+  lookup:
+    required: true
+    description: "Input parameter placeholder"
+    default: "true"
 runs:
-  using: "composite"
-  steps:
-    - id: context
-      shell: bash
-      run: |
-          echo "action-result=${{ inputs.param1 }}" >> $GITHUB_OUTPUT
+  using: "node16"
+  main: "index.js"
 
