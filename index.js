@@ -42,38 +42,43 @@ async function waitForCommitStatusSuccess(owner, repo, commitSha, statusContext,
 }
 
 
-try {
-    // Usage
-    const repository = core.getInput('repository');
-    const ref = core.getInput('ref');
-    const status = core.getInput('status');
-    const lookup = core.getInput('lookup');
-    const check_timeout = core.getInput('check-timeout');
-    const check_retry_count = core.getInput('check-retry-count');
-    const check_retry_interval = core.getInput('check-retry-interval');
+const start = async function() {
+    try {
+        // Usage
+        const repository = core.getInput('repository');
+        const ref = core.getInput('ref');
+        const status = core.getInput('status');
+        const lookup = core.getInput('lookup');
+        const check_timeout = core.getInput('check-timeout');
+        const check_retry_count = core.getInput('check-retry-count');
+        const check_retry_interval = core.getInput('check-retry-interval');
 
-    const options = {
-        timeout: 1000 * check_timeout, // Convert from seconds to milliseconds
-        retryCount: check_retry_count, // Retry 5 times before giving up
-        retryInterval: 1000 * check_retry_interval // Convert from seconds to milliseconds
-    };
+        const options = {
+            timeout: 1000 * check_timeout, // Convert from seconds to milliseconds
+            retryCount: check_retry_count, // Retry 5 times before giving up
+            retryInterval: 1000 * check_retry_interval // Convert from seconds to milliseconds
+        };
 
-    owner = repository.split("/")[0]
-    repo = repository.split("/")[1]
+        owner = repository.split("/")[0]
+        repo = repository.split("/")[1]
 
-    const test = await waitForCommitStatusSuccess(owner, repo, ref, status, lookup, options)
-        .then((result) => {
-            console.log("Done waiting.");
-            if (result) {
-                process.exit(0)
-            }
-            process.exit(1)
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-            process.exit(1); // Exit with status code 1
-        });
+        const test = await waitForCommitStatusSuccess(owner, repo, ref, status, lookup, options)
+            .then((result) => {
+                console.log("Done waiting.");
+                if (result) {
+                    process.exit(0)
+                }
+                process.exit(1)
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                process.exit(1); // Exit with status code 1
+            });
 
-} catch (error) {
-    core.setFailed(error.message);
+    } catch (error) {
+        core.setFailed(error.message);
+    }
 }
+
+start()
+
