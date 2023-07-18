@@ -42,7 +42,7 @@ async function waitForCommitStatusSuccess(owner, repo, commitSha, statusContext,
 }
 
 
-const start = async function() {
+const main = async function() {
     try {
         // Usage
         const repository = core.getInput('repository');
@@ -86,5 +86,5 @@ const start = async function() {
     }
 }
 
-start()
+main()
 
