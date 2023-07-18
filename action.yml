@@ -17,6 +17,10 @@ inputs:
     description: 'Check retry interval (in seconds)'
     required: false
     default: "10"
+  token:
+    description: 'Check retry interval (in seconds)'
+    required: false
+    default: "10"
   repository:
     required: true
     description: "Input parameter placeholder"

@@ -1,4 +1,7 @@
 const core = require('@actions/core');
+const github = require('@actions/github');
+const repoToken = core.getInput('token');
+const client= new github.GitHub(repoToken);
 
 // Function to wait for a specific commit status to become a success
 async function waitForCommitStatusSuccess(owner, repo, commitSha, statusContext, lookup, options = {}) {
@@ -7,8 +10,9 @@ async function waitForCommitStatusSuccess(owner, repo, commitSha, statusContext,
 
     let attemptCount = 0;
 
+
     while (true) {
-        const { data: statuses } = await github.rest.repos.listCommitStatusesForRef({
+        const { data: statuses } = await client.repos.listCommitStatusesForRef({
             owner, repo, ref: commitSha,
         });
 
