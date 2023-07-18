@@ -6,17 +6,17 @@ branding:
   color: 'white'
 inputs:
   check-timeout:
-    required: true
-    description: "Input parameter placeholder"
-    default: "true"
+    description: 'Timeout check (in seconds)'
+    required: false
+    default: "600"
   check-retry-count:
-    required: true
-    description: "Input parameter placeholder"
-    default: "true"
+    description: 'Check retry count'
+    required: false
+    default: "5"
   check-retry-interval:
-    required: true
-    description: "Input parameter placeholder"
-    default: "true"
+    description: 'Check retry interval (in seconds)'
+    required: false
+    default: "10"
   repository:
     required: true
     description: "Input parameter placeholder"
