@@ -24,7 +24,6 @@ jobs:
       random: ${{ steps.random.outputs.password }}
       environment: ${{ steps.random.outputs.environment }}
 
-
   test:
     runs-on: ubuntu-latest
     continue-on-error: true

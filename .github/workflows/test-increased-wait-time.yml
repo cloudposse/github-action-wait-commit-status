@@ -1,10 +1,10 @@
-name: Test wrong status
+name: Test increased timeout
 on:
   #  # Uncomment when test added first time to register workflow and comment it back after workflow would be registered
   #  #
   #  # Added pull_request to register workflow from the PR.
   #  # Read more https://stackoverflow.com/questions/63362126/github-actions-how-to-run-a-workflow-created-on-a-non-master-branch-from-the-wo
-  # pull_request: {}
+  pull_request: {}
   workflow_dispatch: {}
 
 jobs:
@@ -24,7 +24,6 @@ jobs:
       random: ${{ steps.random.outputs.password }}
       environment: ${{ steps.random.outputs.environment }}
 
-
   set_status:
     runs-on: ubuntu-latest
     needs: [setup]
@@ -32,7 +31,7 @@ jobs:
       - name: Sleep for 10s
         uses: juliangruber/sleep-action@v2.0.0
         with:
-          time: 30s
+          time: 70s
 
       - name: Set status
         uses: myrotvorets/set-commit-status-action@master
@@ -40,7 +39,7 @@ jobs:
           repo: ${{ github.repository }}
           sha: ${{ github.sha }}
           token: ${{ secrets.PUBLIC_REPO_ACCESS_TOKEN }}
-          status: pending
+          status: success
           context: continuous-delivery/${{ needs.setup.outputs.environment }}.test-app
 
   test:
@@ -59,6 +58,9 @@ jobs:
           status: continuous-delivery/${{ needs.setup.outputs.environment }}.test-app
           lookup: "success"
           token: ${{ github.token }}
+          check-timeout: 60
+          check-retry-count: 5
+          check-retry-interval: 10
 
     outputs:
       status: ${{ steps.current.outcome }}
