@@ -22,12 +22,12 @@ async function waitForCommitStatusSuccess(owner, repo, commitSha, statusContext,
             return true;
         }
 
-        attemptCount++;
-
         if (attemptCount >= retryCount) {
             console.log(`Exceeded maximum retry count. Exiting...`);
             return false;
         }
+
+        attemptCount++;
 
         const elapsedTime = Date.now() - startTime;
         if (elapsedTime >= timeout) {
