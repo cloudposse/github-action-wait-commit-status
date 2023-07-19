@@ -77,5 +77,11 @@ jobs:
     needs: [assert]
     if: ${{ always() }}
     steps:
-      - name: Tear down
-        run: echo "Do Tear down"
+      - name: Set status
+        uses: myrotvorets/set-commit-status-action@master
+        with:
+          repo: ${{ github.repository }}
+          sha: ${{ github.sha }}
+          token: ${{ secrets.PUBLIC_REPO_ACCESS_TOKEN }}
+          status: success
+          context: continuous-delivery/${{ needs.setup.outputs.environment }}.test-app
