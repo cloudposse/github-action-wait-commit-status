@@ -1,8 +1,8 @@
-name: 'Example composite GitHub action'
-description: 'Example composite GitHub action'
+name: 'Wait for commit status'
+description: 'Checks GitHub API for a given commit and look the commit status'
 author: hello@cloudposse.com
 branding:
-  icon: 'file'
+  icon: 'clock'
   color: 'white'
 inputs:
   check-timeout:
