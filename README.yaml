@@ -5,7 +5,7 @@
 #
 
 # Name of this project
-name: example-github-action-composite
+name: github-action-wait-commit-status
 
 # Tags of this project
 tags:
@@ -18,13 +18,13 @@ tags:
 license: "APACHE2"
 
 # Canonical GitHub repo
-github_repo: cloudposse/example-github-action-composite
+github_repo: cloudposse/github-action-wait-commit-status
 
 # Badges to display
 badges:
   - name: "Latest Release"
-    image: "https://img.shields.io/github/release/cloudposse/example-github-action-composite.svg"
-    url: "https://github.com/cloudposse/example-github-action-composite/releases/latest"
+    image: "https://img.shields.io/github/release/cloudposse/github-action-wait-commit-status.svg"
+    url: "https://github.com/cloudposse/github-action-wait-commit-status/releases/latest"
   - name: "Slack Community"
     image: "https://slack.cloudposse.com/badge.svg"
     url: "https://slack.cloudposse.com"
@@ -32,19 +32,18 @@ badges:
 related: []
 
 # Short description of this project
-description: Template repository of composite GitHub Action
+description: Wait for commit status
 
 introduction: |-
-  This is template repository to create composite GitHub Actions. 
-  Feel free to use it as reference and starting point.
+  Checks GitHub API for a given commit and look the commit status.
 
 references:
   - name: "github-actions-workflows"
     description: "Reusable workflows for different types of projects"
     url: "https://github.com/cloudposse/github-actions-workflows"
-  - name: "example-github-action-release-workflow"
-    description: "Example application with complicated release workflow"
-    url: "https://github.com/cloudposse/example-github-action-release-workflow"
+  - name: "github-action-deploy-argocd"
+    description: "Deploy on Kubernetes with ArgoCD"
+    url: "https://github.com/cloudposse/github-action-deploy-argocd"
 
 # How to use this project
 usage: |-
@@ -59,14 +58,17 @@ usage: |-
       context:
         runs-on: ubuntu-latest
         steps:
-          - name: Example action
-            uses: cloudposse/example-github-action-composite@main
-            id: example
+          - name: Wait commit status
+            uses: cloudposse/github-action-wait-commit-status@main
             with:
-              param1: true
-  
-        outputs:
-          result: ${{ steps.example.outputs.result1 }}
+              repository: ${{ github.repository }}
+              sha: ${{ github.sha }}
+              status: continuous-delivery/example-app
+              lookup: "success"
+              token: ${{ github.token }}
+              check-timeout: 120
+              check-retry-count: 5
+              check-retry-interval: 20
   ```
 
 include:

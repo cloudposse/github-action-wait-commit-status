@@ -56,7 +56,7 @@ jobs:
           repository: ${{ github.repository }}
           sha: ${{ github.sha }}
           status: continuous-delivery/${{ needs.setup.outputs.environment }}.test-app
-          lookup: "success"
+          expected_state: "success"
           token: ${{ github.token }}
           check-timeout: 120
           check-retry-count: 5
