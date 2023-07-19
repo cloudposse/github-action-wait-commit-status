@@ -46,16 +46,12 @@ const main = async function() {
     try {
         // Usage
         const repository = core.getInput('repository');
-        const ref = core.getInput('ref');
+        const sha = core.getInput('sha');
         const status = core.getInput('status');
-        const lookup = core.getInput('lookup');
+        const expected_state = core.getInput('expected_state');
         const check_timeout = core.getInput('check-timeout');
         const check_retry_count = core.getInput('check-retry-count');
         const check_retry_interval = core.getInput('check-retry-interval');
-
-        console.log(check_timeout)
-        console.log(check_retry_count)
-        console.log(check_retry_interval)
 
         const options = {
             timeout: 1000 * check_timeout, // Convert from seconds to milliseconds
@@ -63,12 +59,10 @@ const main = async function() {
             retryInterval: 1000 * check_retry_interval // Convert from seconds to milliseconds
         };
 
-        console.log(options)
-
         owner = repository.split("/")[0]
         repo = repository.split("/")[1]
 
-        const test = await waitForCommitStatusSuccess(owner, repo, ref, status, lookup, options)
+        const test = await waitForCommitStatusSuccess(owner, repo, sha, status, expected_state, options)
             .then((result) => {
                 console.log("Done waiting.");
                 if (result) {

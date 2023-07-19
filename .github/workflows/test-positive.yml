@@ -55,7 +55,7 @@ jobs:
         id: current
         with:
           repository: ${{ github.repository }}
-          ref: ${{ github.sha }}
+          sha: ${{ github.sha }}
           status: continuous-delivery/${{ needs.setup.outputs.environment }}.test-app
           lookup: "success"
           token: ${{ github.token }}
