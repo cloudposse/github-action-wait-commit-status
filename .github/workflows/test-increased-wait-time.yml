@@ -58,7 +58,6 @@ jobs:
           status: continuous-delivery/${{ needs.setup.outputs.environment }}.test-app
           expected_state: "success"
           token: ${{ github.token }}
-          check-timeout: 120
           check-retry-count: 5
           check-retry-interval: 20
 
