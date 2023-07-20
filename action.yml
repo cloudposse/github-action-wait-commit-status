@@ -5,10 +5,6 @@ branding:
   icon: 'clock'
   color: 'white'
 inputs:
-  check-timeout:
-    description: 'Timeout check (in seconds)'
-    required: false
-    default: "600"
   check-retry-count:
     description: 'Check retry count'
     required: false

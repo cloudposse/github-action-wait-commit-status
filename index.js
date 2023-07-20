@@ -3,10 +3,12 @@ const github = require('@actions/github');
 const repoToken = core.getInput('token');
 const client = github.getOctokit(repoToken);
 
+const check_retry_count = core.getInput('check-retry-count');
+const check_retry_interval = core.getInput('check-retry-interval');
+
 // Function to wait for a specific commit status to become a success
-async function waitForCommitStatusSuccess(owner, repo, commitSha, statusContext, lookup, options = {}) {
-    const { timeout = 300000, retryCount = 10, retryInterval = 5000 } = options;
-    const startTime = Date.now();
+async function waitForCommitStatus(owner, repo, commitSha, statusContext, lookup, options = {}) {
+    const { retryCount = 10, retryInterval = 5000 } = options;
 
     let attemptCount = 0;
 
@@ -29,12 +31,6 @@ async function waitForCommitStatusSuccess(owner, repo, commitSha, statusContext,
 
         attemptCount++;
 
-        const elapsedTime = Date.now() - startTime;
-        if (elapsedTime >= timeout) {
-            console.log(`Timeout reached. Exiting...`);
-            return false;
-        }
-
         console.log(`Waiting for commit status "${statusContext}" to become a success...`);
 
         await new Promise((resolve) => setTimeout(resolve, retryInterval));
@@ -49,12 +45,8 @@ const main = async function() {
         const sha = core.getInput('sha');
         const status = core.getInput('status');
         const expected_state = core.getInput('expected_state');
-        const check_timeout = core.getInput('check-timeout');
-        const check_retry_count = core.getInput('check-retry-count');
-        const check_retry_interval = core.getInput('check-retry-interval');
 
         const options = {
-            timeout: 1000 * check_timeout, // Convert from seconds to milliseconds
             retryCount: check_retry_count, // Retry 5 times before giving up
             retryInterval: 1000 * check_retry_interval // Convert from seconds to milliseconds
         };
@@ -62,7 +54,7 @@ const main = async function() {
         owner = repository.split("/")[0]
         repo = repository.split("/")[1]
 
-        const test = await waitForCommitStatusSuccess(owner, repo, sha, status, expected_state, options)
+        const test = await waitForCommitStatus(owner, repo, sha, status, expected_state, options)
             .then((result) => {
                 console.log("Done waiting.");
                 if (result) {
