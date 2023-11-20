@@ -76,7 +76,7 @@ function createClient() {
     const appId = core.getInput('app-id');
     const appPrivateKey = core.getInput('app-private-key');
 
-    if (appId != null) {
+    if (appId != null && appId.trim().length != 0) {
         const app = new App({
             appId: appId,
             privateKey: appPrivateKey,
