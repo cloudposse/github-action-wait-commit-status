@@ -77,6 +77,10 @@ function createClient() {
     const appPrivateKey = core.getInput('app-private-key');
 
     if (appId != null && appId.trim().length != 0) {
+        if (appPrivateKey == null || appPrivateKey.trim().length == 0) {
+            throw new Error('The app-private-key input is required when specifying the app-id.')
+        }
+
         const app = new App({
             appId: appId,
             privateKey: appPrivateKey,
