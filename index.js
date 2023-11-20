@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const repoToken = core.getInput('token');
-const client = github.getOctokit(repoToken);
+const { App } = require('octokit');
+
 
 const check_retry_count = core.getInput('check-retry-count');
 const check_retry_interval = core.getInput('check-retry-interval');
@@ -10,8 +10,8 @@ const check_retry_interval = core.getInput('check-retry-interval');
 async function waitForCommitStatus(owner, repo, commitSha, statusContext, lookup, options = {}) {
     const { retryCount = 10, retryInterval = 5000 } = options;
 
+    const client = createClient();
     let attemptCount = 0;
-
 
     while (true) {
         const { data: statuses } = await client.rest.repos.listCommitStatusesForRef({
@@ -38,7 +38,7 @@ async function waitForCommitStatus(owner, repo, commitSha, statusContext, lookup
 }
 
 
-const main = async function() {
+const main = async function () {
     try {
         // Usage
         const repository = core.getInput('repository');
@@ -69,6 +69,25 @@ const main = async function() {
 
     } catch (error) {
         core.setFailed(error.message);
+    }
+}
+
+function createClient() {
+    const appId = core.getInput('app-id');
+    const appPrivateKey = core.getInput('app-private-key');
+
+    if (appId != null) {
+        const app = new App({
+            appId: appId,
+            privateKey: appPrivateKey,
+        });
+
+        return app.octokit;
+    } else {
+        const token = core.getInput('token');
+        const client = github.getOctokit(token);
+
+        return client;
     }
 }
 

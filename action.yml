@@ -13,8 +13,14 @@ inputs:
     description: 'Check retry interval (in seconds)'
     required: false
     default: "10"
+  app-id:
+    description: 'The Github App ID used for authentication'
+    required: false
+  app-private-key:
+    description: 'The Github App private key used for authentication'
+    required: false
   token:
-    description: 'Github authentication token'
+    description: 'Github authentication token.'
     required: false
     default: ${{ github.token }}
   repository:
