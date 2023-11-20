@@ -16,6 +16,9 @@ inputs:
   app-id:
     description: 'The Github App ID used for authentication'
     required: false
+  app-installation-id:
+    description: 'The Github App Installation ID used for authentication when checking for deployment status'
+    required: false
   app-private-key:
     description: 'The Github App private key used for authentication'
     required: false

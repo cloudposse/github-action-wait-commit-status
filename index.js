@@ -74,15 +74,21 @@ const main = async function () {
 
 function createClient() {
     const appId = core.getInput('app-id');
+    const appInstallationId = core.getInput('app-installation-id');
     const appPrivateKey = core.getInput('app-private-key');
 
     if (appId != null && appId.trim().length != 0) {
+        if (appInstallationId == null || appInstallationId.trim().length == 0) {
+            throw new Error('The app-installation-id input is required when specifying the app-id.')
+        }
+
         if (appPrivateKey == null || appPrivateKey.trim().length == 0) {
             throw new Error('The app-private-key input is required when specifying the app-id.')
         }
 
         const app = new App({
             appId: appId,
+            installationId: appInstallationId,
             privateKey: appPrivateKey,
         });
 
