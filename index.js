@@ -10,7 +10,7 @@ const check_retry_interval = core.getInput('check-retry-interval');
 async function waitForCommitStatus(owner, repo, commitSha, statusContext, lookup, options = {}) {
     const { retryCount = 10, retryInterval = 5000 } = options;
 
-    const client = createClient();
+    const client = await createClient();
     let attemptCount = 0;
 
     while (true) {
@@ -72,7 +72,7 @@ const main = async function () {
     }
 }
 
-function createClient() {
+async function createClient() {
     const appId = core.getInput('app-id');
     const appInstallationId = core.getInput('app-installation-id');
     const appPrivateKey = core.getInput('app-private-key');
@@ -88,18 +88,16 @@ function createClient() {
 
         const app = new App({
             appId: appId,
-            installationId: appInstallationId,
             privateKey: appPrivateKey,
         });
 
-        return app.octokit;
+        return await app.getInstallationOctokit(appInstallationId);
     } else {
         const token = core.getInput('token');
-        const client = github.getOctokit(token);
 
-        return client;
+        return github.getOctokit(token);
     }
 }
 
-main()
+main();
 
