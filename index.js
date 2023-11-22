@@ -3,8 +3,8 @@ const github = require('@actions/github');
 const { App } = require('octokit');
 
 
-const check_retry_count = core.getInput('check-retry-count');
-const check_retry_interval = core.getInput('check-retry-interval');
+const check_retry_count = core.getInput('check-retry-count') || 30;
+const check_retry_interval = core.getInput('check-retry-interval') || 30;
 
 console.log(`check-retry-count: ${check_retry_count}, check-retry-interval: ${check_retry_interval}`);
 
