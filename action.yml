@@ -8,11 +8,11 @@ inputs:
   check-retry-count:
     description: 'Check retry count'
     required: false
-    default: "5"
+    default: "30"
   check-retry-interval:
     description: 'Check retry interval (in seconds)'
     required: false
-    default: "10"
+    default: "30"
   app-id:
     description: 'The Github App ID used for authentication'
     required: false

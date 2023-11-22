@@ -7,8 +7,8 @@ const check_retry_count = core.getInput('check-retry-count');
 const check_retry_interval = core.getInput('check-retry-interval');
 
 // Function to wait for a specific commit status to become a success
-async function waitForCommitStatus(owner, repo, commitSha, statusContext, lookup, options = {}) {
-    const { retryCount = 10, retryInterval = 5000 } = options;
+async function waitForCommitStatus(owner, repo, commitSha, statusContext, lookup, options) {
+    const { retryCount, retryInterval } = options;
 
     const client = await createClient();
     let attemptCount = 0;
@@ -47,7 +47,7 @@ const main = async function () {
         const expected_state = core.getInput('expected_state');
 
         const options = {
-            retryCount: check_retry_count, // Retry 5 times before giving up
+            retryCount: check_retry_count,
             retryInterval: 1000 * check_retry_interval // Convert from seconds to milliseconds
         };
 
