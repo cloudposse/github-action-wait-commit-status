@@ -6,6 +6,8 @@ const { App } = require('octokit');
 const check_retry_count = core.getInput('check-retry-count');
 const check_retry_interval = core.getInput('check-retry-interval');
 
+console.log(`check-retry-count: ${check_retry_count}, check-retry-interval: ${check_retry_interval}`);
+
 // Function to wait for a specific commit status to become a success
 async function waitForCommitStatus(owner, repo, commitSha, statusContext, lookup, options) {
     const { retryCount, retryInterval } = options;
