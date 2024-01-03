@@ -3,26 +3,31 @@ const github = require('@actions/github');
 const { App } = require('octokit');
 
 
-const check_retry_count = core.getInput('check-retry-count') || 30;
-const check_retry_interval = core.getInput('check-retry-interval') || 30;
+const check_retry_count = parseInt(core.getInput('check-retry-count'), 10) || 30;
+const check_retry_interval = parseInt(core.getInput('check-retry-interval'), 10) || 30;
+const check_page_size = parseInt(core.getInput('check-page-size'), 10) || 1000;
 
-console.log(`check-retry-count: ${check_retry_count}, check-retry-interval: ${check_retry_interval}`);
+console.log(`check-retry-count: ${check_retry_count}, check-retry-interval: ${check_retry_interval}, check-page-size ${check_page_size}`);
 
-// Function to wait for a specific commit status to become a success
-async function waitForCommitStatus(owner, repo, commitSha, statusContext, lookup, options) {
+// Function to wait for a specific commit status to have the expected state
+async function waitForCommitStatus(owner, repo, commitSha, statusContext, expected_state, options) {
     const { retryCount, retryInterval } = options;
 
     const client = await createClient();
     let attemptCount = 0;
 
     while (true) {
-        const { data: statuses } = await client.rest.repos.listCommitStatusesForRef({
-            owner, repo, ref: commitSha,
+        const statuses = await client.paginate('GET /repos/{owner}/{repo}/commits/{ref}/statuses', {
+            owner, 
+            repo, 
+            ref: commitSha,
+            per_page: check_page_size
         });
 
-        const matchingStatus = statuses.find((status) => status.context === statusContext);
-        if (matchingStatus && matchingStatus.state === lookup) {
-            console.log(`Commit status "${statusContext}" is now a success.`);
+        const matchingStatus = statuses.find((status) => status.context === statusContext && status.state === expected_state);
+
+        if (matchingStatus != null) {
+            console.log(`Commit status "${statusContext}" is now in the ${expected_state} state.`);
             return true;
         }
 
@@ -33,7 +38,7 @@ async function waitForCommitStatus(owner, repo, commitSha, statusContext, lookup
 
         attemptCount++;
 
-        console.log(`Waiting for commit status "${statusContext}" to become a success...`);
+        console.log(`Waiting for commit status "${statusContext}" to be in the ${expected_state} state...`);
 
         await new Promise((resolve) => setTimeout(resolve, retryInterval));
     }
@@ -56,17 +61,19 @@ const main = async function () {
         owner = repository.split("/")[0]
         repo = repository.split("/")[1]
 
-        const test = await waitForCommitStatus(owner, repo, sha, status, expected_state, options)
+        await waitForCommitStatus(owner, repo, sha, status, expected_state, options)
             .then((result) => {
                 console.log("Done waiting.");
+
                 if (result) {
                     process.exit(0)
                 }
+
                 process.exit(1)
             })
             .catch((error) => {
                 console.error("Error:", error);
-                process.exit(1); // Exit with status code 1
+                process.exit(1);
             });
 
     } catch (error) {
