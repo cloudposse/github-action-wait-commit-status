@@ -13,10 +13,6 @@ inputs:
     description: 'Check retry interval (in seconds)'
     required: false
     default: "30"
-  check-page-size:
-    description: 'Page size for status API calls'
-    required: false
-    default: "1000"
   app-id:
     description: 'The Github App ID used for authentication'
     required: false

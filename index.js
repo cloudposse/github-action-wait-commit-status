@@ -5,9 +5,8 @@ const { App } = require('octokit');
 
 const check_retry_count = parseInt(core.getInput('check-retry-count'), 10) || 30;
 const check_retry_interval = parseInt(core.getInput('check-retry-interval'), 10) || 30;
-const check_page_size = parseInt(core.getInput('check-page-size'), 10) || 1000;
 
-console.log(`check-retry-count: ${check_retry_count}, check-retry-interval: ${check_retry_interval}, check-page-size ${check_page_size}`);
+console.log(`check-retry-count: ${check_retry_count}, check-retry-interval: ${check_retry_interval}`);
 
 // Function to wait for a specific commit status to have the expected state
 async function waitForCommitStatus(owner, repo, commitSha, statusContext, expected_state, options) {
@@ -21,7 +20,7 @@ async function waitForCommitStatus(owner, repo, commitSha, statusContext, expect
             owner, 
             repo, 
             ref: commitSha,
-            per_page: check_page_size
+            per_page: 100 // Set to max page size
         });
 
         const matchingStatus = statuses.find((status) => status.context === statusContext && status.state === expected_state);
