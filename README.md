@@ -2,8 +2,11 @@
 
 <!-- markdownlint-disable -->
 <a href="https://cpco.io/homepage"><img src="https://github.com/cloudposse/github-action-wait-commit-status/blob/main/.github/banner.png?raw=true" alt="Project Banner"/></a><br/>
-    <p align="right">
-<a href="https://github.com/cloudposse/github-action-wait-commit-status/releases/latest"><img src="https://img.shields.io/github/release/cloudposse/github-action-wait-commit-status.svg" alt="Latest Release"/></a><a href="https://slack.cloudposse.com"><img src="https://slack.cloudposse.com/badge.svg" alt="Slack Community"/></a></p>
+
+
+<p align="right"><a href="https://github.com/cloudposse/github-action-wait-commit-status/releases/latest"><img src="https://img.shields.io/github/release/cloudposse/github-action-wait-commit-status.svg?style=for-the-badge" alt="Latest Release"/></a><a href="https://github.com/cloudposse/github-action-wait-commit-status/commits"><img src="https://img.shields.io/github/last-commit/cloudposse/github-action-wait-commit-status.svg?style=for-the-badge" alt="Last Updated"/></a><a href="https://cloudposse.com/slack"><img src="https://slack.cloudposse.com/for-the-badge.svg" alt="Slack Community"/></a>
+
+</p>
 <!-- markdownlint-restore -->
 
 <!--
@@ -70,22 +73,10 @@ Checks GitHub API for a given commit and look the commit status.
 
 
 
-<!-- markdownlint-disable -->
-
-## Inputs
-
-| Name | Description | Default | Required |
-|------|-------------|---------|----------|
-| check-retry-count | Check retry count | 5 | false |
-| check-retry-interval | Check retry interval (in seconds) | 10 | false |
-| expected\_state | Commit status state wait for. Valid values 'success', 'error', 'failure', 'pending' | success | false |
-| repository | Repository | N/A | true |
-| sha | Commit SHA | N/A | true |
-| status | Commit status name | N/A | true |
-| token | Github authentication token | ${{ github.token }} | false |
 
 
-<!-- markdownlint-restore -->
+
+
 
 
 ## Related Projects
