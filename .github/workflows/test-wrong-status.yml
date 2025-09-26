@@ -38,7 +38,7 @@ jobs:
     needs: [setup]
     steps:
       - name: Sleep for 10s
-        uses: juliangruber/sleep-action@v2.0.0
+        uses: juliangruber/sleep-action@v2.0.3
         with:
           time: 30s
 
