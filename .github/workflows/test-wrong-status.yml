@@ -15,6 +15,10 @@ on:
         description: "The sha of the commit that triggered the workflow run"
         required: false
         type: "string"
+permissions:
+  contents: read
+  statuses: write
+
 jobs:
   setup:
     runs-on: ubuntu-latest
@@ -47,7 +51,7 @@ jobs:
         with:
           repo: ${{ github.repository }}
           sha: ${{ github.sha }}
-          token: ${{ secrets.PUBLIC_REPO_ACCESS_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           status: pending
           context: continuous-delivery/${{ needs.setup.outputs.environment }}.test-app
 
@@ -90,6 +94,6 @@ jobs:
         with:
           repo: ${{ github.repository }}
           sha: ${{ github.sha }}
-          token: ${{ secrets.PUBLIC_REPO_ACCESS_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           status: success
           context: continuous-delivery/${{ needs.setup.outputs.environment }}.test-app
